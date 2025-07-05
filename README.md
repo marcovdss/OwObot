@@ -16,7 +16,7 @@
    !vincular <servidor> [região] <Nome_Sobrenome>
    ```
 
-   * Exemplo: `!vincular lamia NA Jiro Strahlender`
+   * Exemplo: `!vincular behemoth NA Fulano Silva`
    * Armazena servidor, região (padrão `NA`) e nome no arquivo `user_characters.json`.
 
 2. **Exibir perfil**
