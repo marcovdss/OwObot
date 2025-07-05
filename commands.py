@@ -2,6 +2,7 @@ import os
 import json
 import discord
 from discord.ext import commands
+from progress import capturar_grafico_guilda
 from data_manager import load_user_data, save_user_data
 from fflogs_api import run_query
 
@@ -53,8 +54,19 @@ async def vincular(ctx, *, args: str):
 
     await ctx.send(f"✅ Personagem vinculado: {character_name} ({server}, {region})")
 
+
+@bot.command()
+async def progresso(ctx):
+    try:
+        file = await capturar_grafico_guilda()
+        await ctx.send("🏰 Progresso atual da guilda:", file=file)
+    except Exception as e:
+        await ctx.send(str(e))
+
 @bot.command()
 async def perfil(ctx, member: discord.Member = None, server: str = None, region: str = "NA", *, name: str = None):
+    import json
+    
     user_id = str(member.id) if member else str(ctx.author.id)
     
     if not server or not name:
@@ -98,8 +110,8 @@ async def perfil(ctx, member: discord.Member = None, server: str = None, region:
             name = char["name"]
             server_name = char["server"]["name"]
             zone_rankings = char["zoneRankings"]
+            
             if isinstance(zone_rankings, str):
-                import json
                 zone_rankings = json.loads(zone_rankings)
 
             best_avg = zone_rankings.get("bestPerformanceAverage", None)
@@ -110,6 +122,25 @@ async def perfil(ctx, member: discord.Member = None, server: str = None, region:
             best_avg_str = f"{best_avg:.2f}" if isinstance(best_avg, (int, float)) else "N/A"
             median_avg_str = f"{median_avg:.2f}" if isinstance(median_avg, (int, float)) else "N/A"
 
+            rankings = zone_rankings.get("rankings", [])
+
+            best_parse_data = None
+            best_parse_value = -1
+
+            for ranking in rankings:
+                parse_val = ranking.get("rankPercent")
+                if parse_val is None:
+                    continue
+                if parse_val > best_parse_value:
+                    best_parse_value = parse_val
+                    best_parse_data = ranking
+
+            if best_parse_data:
+                boss_name = best_parse_data.get("encounter", {}).get("name", "Desconhecido")
+                best_parse_str = f"{best_parse_value:.2f}% em **{boss_name}**"
+            else:
+                best_parse_str = "N/A"
+
             profile_url = f"https://www.fflogs.com/character/id/{char_id}" if char_id else "N/A"
 
             await ctx.send(
@@ -117,6 +148,7 @@ async def perfil(ctx, member: discord.Member = None, server: str = None, region:
                 f"🔸 Best Avg: {best_avg_str}\n"
                 f"🔸 Median Avg: {median_avg_str}\n"
                 f"🌟 All-Star Rank: {all_star_rank}\n"
+                f"🏆 Melhor Pontuação: {best_parse_str}\n"
                 f"🔗 [Perfil FFLogs]({profile_url})"
             )
         else:
@@ -124,25 +156,31 @@ async def perfil(ctx, member: discord.Member = None, server: str = None, region:
     except Exception as e:
         await ctx.send(f"Erro ao buscar dados: {e}")
 
+
+
 # O comando recente pode seguir padrão parecido, com load_user_data, clean_character_name e chamada run_query
+
 
 @bot.command()
 async def recente(ctx, server: str = None, region: str = "NA", *, character_name: str = None):
     user_id = str(ctx.author.id)
+    
     if not server or not character_name:
         user_data = load_user_data()
         if user_id not in user_data:
             await ctx.send("Você ainda não vinculou um personagem. Use `!vincular servidor região Nome_Do_Personagem`.")
             return
+        
         saved_data = user_data[user_id]
         server = server or saved_data.get("server")
-        region = region or saved_data.get("region")
-        character_name = character_name or saved_data.get("name")  # <-- ajustar para "name"
-
+        region = region or saved_data.get("region", "NA")  # região padrão se não tiver
+        character_name = character_name or saved_data.get("name")
+    
+    if not character_name:
+        await ctx.send("Nome do personagem não encontrado. Use `!vincular servidor região Nome_Do_Personagem` para registrar.")
+        return
+    
     character_name = clean_character_name(character_name)
-
-    # resto do código...
-
 
     query = """
     query($name: String!, $server: String!, $region: String!) {
@@ -214,6 +252,8 @@ async def recente(ctx, server: str = None, region: str = "NA", *, character_name
         await ctx.send("\n".join(lines))
     except Exception as e:
         await ctx.send(f"Erro ao buscar lutas: {e}")
+
+        
 
 @bot.command(name="help")
 async def custom_help(ctx):
