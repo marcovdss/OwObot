@@ -1,92 +1,93 @@
 **OwoBot: FFLogs Discord Bot**
 
-*OwoBot* é um bot para Discord desenvolvido em Python, que integra com a API v2 do FFLogs:
+*OwoBot* is a Discord bot written in Python that integrates with the FFLogs v2 API to:
 
-* 📊 Exibir estatísticas de desempenho de personagens de Final Fantasy XIV (Best Avg, Median Avg, All‑Star Rank).
-* ⏱ Listar as 3 últimas lutas do personagem (boss, dificuldade, resultado e duração) com link direto para o log.
-* 🏰 Capturar o gráfico de progresso da guilda via Selenium e enviar como imagem.
+* 📊 Display character performance stats for Final Fantasy XIV (Best Avg, Median Avg, All‑Star Rank).
+* ⏱ List the last 3 fights of a character (boss, difficulty, result, duration) with direct log links.
+* 🏰 Capture the guild progress widget via Selenium and send it as an image.
 
 ---
 
-## 🚀 Funcionalidades
+## 🚀 Features
 
-1. **Vincular personagem**
-
-   ```bash
-   !vincular <servidor> [região] <Nome_Sobrenome>
-   ```
-
-   * Exemplo: `!vincular behemoth NA Fulano Silva`
-   * Armazena servidor, região (padrão `NA`) e nome no arquivo `user_characters.json`.
-
-2. **Exibir perfil**
+1. **Link your character to your Discord account**
 
    ```bash
-   !perfil [@membro]
+   !vincular <server> [region] <First_Last>
    ```
 
-   * Exibe: Best Avg, Median Avg, All‑Star Rank, destaque (melhor parse % em boss) e link para o perfil FFLogs.
-   * Se mencionar outro usuário, traz o perfil vinculado dele.
+   * Example: `!vincular behemoth NA John Doe`
+   * Stores server, region, and character name.
 
-3. **Lutas recentes**
+2. **Show profile**
 
    ```bash
-   !recente [servidor] [região] <Nome>
+   !perfil
    ```
 
-   * Lista as 3 últimas lutas: boss, dificuldade (Normal/Savage/Ultimate), ✅/❌, duração e link.
-   * Usa dados vinculados se não passar argumentos.
+   * Shows: Best Avg, Median Avg, All‑Star Rank, Highlight (highest parse % and boss), and a link to the FFLogs profile.
+   * Mention another user to display their linked character.
 
-4. **Progresso de guilda**
+3. **Recent fights**
+
+   ```bash
+   !recente [server] [region] <Name>
+   ```
+
+   * Lists the last 3 fights: boss, difficulty (Normal/Savage/Ultimate), ✅/❌, duration, and log link.
+   * Uses linked character if no arguments provided.
+
+4. **Static/Guild progress**
 
    ```bash
    !progresso
    ```
 
-   * Captura via Selenium o widget de progresso da guilda (embed FFLogs) e envia um screenshot.
+   * Captures the guild progress widget via Selenium (FFLogs embed) and sends a screenshot.
 
-5. **Ajuda**
+5. **Help**
 
    ```bash
    !help
    ```
 
-   * Lista e descreve todos os comandos.
+   * Lists and explains all commands.
 
 ---
 
-## ⚙️ Instalação e Configuração
+## ⚙️ Installation & Setup
 
-1. Clone o repositório:
+1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/SEU_USUARIO/owobot.git
+   git clone https://github.com/YOUR_USERNAME/owobot.git
    cd owobot
    ```
 
-2. Crie e ative um virtualenv:
+2. **Create & activate a virtual environment**
 
    ```bash
    python3 -m venv venv
-   source venv/bin/activate  # macOS/Linux
-   venv\Scripts\activate   # Windows
+   source venv/bin/activate    # macOS/Linux
+   venv\Scripts\activate     # Windows
    ```
 
-3. Instale as dependências:
+3. **Install dependencies**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Crie um arquivo `.env` na raiz com as credenciais:
+4. **Configure credentials**
+   Create a `.env` file in the project root:
 
-   ```text
-   DISCORD_TOKEN=seu_token_discord
-   FFLOGS_CLIENT_ID=seu_client_id_fflogs
-   FFLOGS_CLIENT_SECRET=seu_client_secret_fflogs
+   ```env
+   DISCORD_TOKEN=<your-discord-bot-token>
+   FFLOGS_CLIENT_ID=<your-fflogs-client-id>
+   FFLOGS_CLIENT_SECRET=<your-fflogs-client-secret>
    ```
 
-5. Inicie o bot:
+5. **Run the bot**
 
    ```bash
    python bot.py
@@ -94,16 +95,16 @@
 
 ---
 
-## 🤝 Contribuições
+## 🤝 Contributing
 
-1. Faça um Fork deste repositório.
-2. Crie uma branch para sua feature: `git checkout -b feature/nova-funcionalidade`
-3. Commit suas mudanças: `git commit -m "Adiciona X feature"`
-4. Push na branch: `git push origin feature/nova-funcionalidade`
-5. Abra um Pull Request.
+1. Fork this repository.
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m "Add feature X"`
+4. Push to the branch: `git push origin feature/your-feature`
+5. Open a Pull Request.
 
 ---
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
