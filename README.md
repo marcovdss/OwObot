@@ -15,6 +15,8 @@
    ```bash
    !vincular <server> [region] <First_Last>
    ```
+   ![image](https://github.com/user-attachments/assets/32915f4c-c621-444a-b69c-2829ff1f9f82)
+
 
    * Example: `!vincular behemoth NA John Doe`
    * Stores server, region, and character name.
@@ -24,6 +26,7 @@
    ```bash
    !perfil
    ```
+   ![image](https://github.com/user-attachments/assets/571e85d1-d008-4701-9e7a-df9a246b7d4b)
 
    * Shows: Best Avg, Median Avg, All‑Star Rank, Highlight (highest parse % and boss), and a link to the FFLogs profile.
    * Mention another user to display their linked character.
@@ -33,6 +36,7 @@
    ```bash
    !recente [server] [region] <Name>
    ```
+![image](https://github.com/user-attachments/assets/fc4ee1f2-be32-4fd8-9ede-0e2c15ad421e)
 
    * Lists the last 3 fights: boss, difficulty (Normal/Savage/Ultimate), ✅/❌, duration, and log link.
    * Uses linked character if no arguments provided.
@@ -42,10 +46,11 @@
    ```bash
    !progresso
    ```
+   ![image](https://github.com/user-attachments/assets/fd93aeba-a593-45e6-b8cc-fe352a89317e)
 
    * Captures the guild progress widget via Selenium (FFLogs embed) and sends a screenshot.
 
-5. **Help**
+4. **Help**
 
    ```bash
    !help
